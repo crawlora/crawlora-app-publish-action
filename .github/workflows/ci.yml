@@ -56,8 +56,11 @@ jobs:
       - name: Test Local Action
         id: test-action
         uses: ./
+        env:
+          CRAWLORA_AUTH_KEY: ${{ secrets.CRAWLORA_AUTH_KEY }}
         with:
-          milliseconds: 2000
+          working-directory: ./__example_app__
+          auth_key: ${{ secrets.CRAWLORA_AUTH_KEY }}
 
       - name: Print Output
         id: output
