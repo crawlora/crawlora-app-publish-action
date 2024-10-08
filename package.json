@@ -33,6 +33,7 @@
     "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
     "package:watch": "npm run package -- --watch",
     "test": "npx jest",
+    "preall": "rimraf dist coverage badges",
     "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
   },
   "license": "MIT",
@@ -92,6 +93,7 @@
     "make-coverage-badge": "^1.2.0",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
+    "rimraf": "^6.0.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.2"
   }
