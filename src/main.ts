@@ -48,7 +48,8 @@ export async function run(): Promise<void> {
         author: fileInfo.author || 'admin',
         screenshots: fileInfo.screenshot_files,
         title: fileInfo.title,
-        version: fileInfo.version
+        version: fileInfo.version,
+        short_description: fileInfo.short_description
       })
 
       core.debug(`got message: ${msg.message || 'code updated successfully'}`)
@@ -61,6 +62,7 @@ export async function run(): Promise<void> {
       input: JSON.parse(
         readFileSync(fileInfo.input_file, { encoding: 'utf-8' })
       ),
+      short_description: fileInfo.short_description,
       description: readFileSync(fileInfo.documentation_file, {
         encoding: 'utf-8'
       }),
