@@ -1,0 +1,12 @@
+[
+    {
+        "type": "input",
+        "datatype": "string",
+        "placeholder": "string",
+        "default": "string",
+        "label": "string",
+        "regex": "string",
+        "required": true,
+        "name": "string"
+      }
+]
