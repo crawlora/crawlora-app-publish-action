@@ -80,7 +80,7 @@ export async function run(): Promise<void> {
       console.error(error.response?.data)
     }
 
-    if (error instanceof Error && auth_key() !== "fake") {
+    if (error instanceof Error && auth_key() !== 'fake') {
       core.debug(error.message)
       core.setFailed(error)
     }

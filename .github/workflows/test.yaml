@@ -1,6 +1,6 @@
 name: Test Action Locally
 
-on: 
+on:
   workflow_dispatch:
 
 jobs:
