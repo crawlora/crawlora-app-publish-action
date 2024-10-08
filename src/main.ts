@@ -4,7 +4,7 @@ import { chdir } from './utils/changeDir'
 import { getCrawloraFile } from './utils/getCrawloraFile'
 import { compress } from './utils/compress'
 import { readFileSync } from 'fs'
-import { Application } from '@crawlora/sdk'
+import { Application } from './app'
 import { AxiosError } from 'axios'
 
 /**

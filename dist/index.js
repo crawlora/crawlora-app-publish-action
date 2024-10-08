@@ -3195,545 +3195,12 @@ function copyFile(srcFile, destFile, force) {
 
 /***/ }),
 
-/***/ 3924:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Analytics = void 0;
-const main_1 = __nccwpck_require__(3857);
-class Analytics extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    get() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get("/analytics");
-            return data;
-        });
-    }
-}
-exports.Analytics = Analytics;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 7856:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Application = void 0;
-const form_data_1 = __importDefault(__nccwpck_require__(6454));
-const main_1 = __nccwpck_require__(3857);
-const fs_1 = __nccwpck_require__(9896);
-class Application extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    get() {
-        return __awaiter(this, arguments, void 0, function* (page = 1, recordPerPage = 10, order = "desc") {
-            const { data } = yield this.api().get(`/application`, {
-                params: {
-                    page,
-                    recordPerPage,
-                    order,
-                },
-            });
-            return data;
-        });
-    }
-    getById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get(`/application/${id}`);
-            return data;
-        });
-    }
-    create(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const form = new form_data_1.default();
-            form.append("title", body.title);
-            form.append("description", body.description);
-            form.append("file", (0, fs_1.createReadStream)(body.file_path));
-            form.append("icon", (0, fs_1.createReadStream)(body.icon));
-            form.append("banner", (0, fs_1.createReadStream)(body.banner));
-            form.append("author", body.author);
-            form.append("version", body.version);
-            // Append each input item
-            body.input.forEach((input) => {
-                const data = JSON.stringify(input);
-                form.append("input", data);
-            });
-            body.screenshots.forEach((inp) => {
-                form.append("screenshots", (0, fs_1.createReadStream)(inp));
-            });
-            const { data } = yield this.api().post(`/application`, form, {
-                headers: Object.assign({}, form.getHeaders()),
-            });
-            return data;
-        });
-    }
-    update(id, body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b;
-            const form = new form_data_1.default();
-            form.append("title", body.title);
-            form.append("description", body.description);
-            if (body.file_path) {
-                form.append("file", (0, fs_1.createReadStream)(body.file_path));
-            }
-            if (body.icon) {
-                form.append("icon", (0, fs_1.createReadStream)(body.icon));
-            }
-            if (body.banner) {
-                form.append("banner", (0, fs_1.createReadStream)(body.banner));
-            }
-            form.append("author", body.author);
-            form.append("version", body.version);
-            // Append each input item
-            (_a = body === null || body === void 0 ? void 0 : body.input) === null || _a === void 0 ? void 0 : _a.forEach((input) => {
-                const data = JSON.stringify(input);
-                form.append("input", JSON.stringify(input));
-            });
-            (_b = body === null || body === void 0 ? void 0 : body.screenshots) === null || _b === void 0 ? void 0 : _b.forEach((inp) => {
-                form.append("screenshots", (0, fs_1.createReadStream)(inp));
-            });
-            const { data } = yield this.api().put(`/application/${id}`, body, {
-                headers: Object.assign({}, form.getHeaders())
-            });
-            return data;
-        });
-    }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().delete(`/application/${id}`);
-            return data;
-        });
-    }
-}
-exports.Application = Application;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 1908:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(7856), exports);
-__exportStar(__nccwpck_require__(9300), exports);
-__exportStar(__nccwpck_require__(2536), exports);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 9300:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Sequence = void 0;
-const main_1 = __nccwpck_require__(3857);
-class Sequence extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    get() {
-        return __awaiter(this, arguments, void 0, function* (page = 1, recordPerPage = 10, order = 'desc') {
-            const { data } = yield this.api().get(`/sequence`, {
-                params: {
-                    page,
-                    recordPerPage,
-                    order
-                }
-            });
-            return data;
-        });
-    }
-    getById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get(`/sequence/${id}`);
-            return data;
-        });
-    }
-    create(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().post(`/sequence`, body);
-            return data;
-        });
-    }
-    update(id, body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().put(`/sequence/${id}`, body);
-            return data;
-        });
-    }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().delete(`/sequence/${id}`);
-            return data;
-        });
-    }
-}
-exports.Sequence = Sequence;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 2536:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.SequenceOutput = void 0;
-const main_1 = __nccwpck_require__(3857);
-class SequenceOutput extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    getById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get(`/sequence-output/${id}`);
-            return data;
-        });
-    }
-    create(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().post(`/sequence-output`, body);
-            return data;
-        });
-    }
-}
-exports.SequenceOutput = SequenceOutput;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 5901:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.auth_key = exports.getEnv = void 0;
-const getEnv = (key, def, shouldCrash = true) => {
-    const { env } = process;
-    const value = env[key] || def;
-    if (typeof value !== 'string' && shouldCrash === true) {
-        throw new Error(`env ${key} did not found in env`);
-    }
-    return value;
-};
-exports.getEnv = getEnv;
-exports.auth_key = (0, exports.getEnv)('CRAWLORA_AUTH_KEY', undefined, false); // provided by default
-//# sourceMappingURL=config.js.map
-
-/***/ }),
-
-/***/ 6551:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(3857), exports);
-__exportStar(__nccwpck_require__(3924), exports);
-__exportStar(__nccwpck_require__(1908), exports);
-__exportStar(__nccwpck_require__(8579), exports);
-__exportStar(__nccwpck_require__(8557), exports);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 3857:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Crawlora = void 0;
-const axios_1 = __importDefault(__nccwpck_require__(7269));
-const config_1 = __nccwpck_require__(5901);
-class Crawlora {
-    constructor(apiKey, baseUrl) {
-        this.baseUrl = new URL("https://api.crawlora.com/api/v1");
-        if (apiKey) {
-            this.setApikey(apiKey);
-        }
-        if (baseUrl) {
-            this.setBaseUrl(baseUrl);
-        }
-    }
-    setBaseUrl(url) {
-        this.baseUrl = url;
-    }
-    setApikey(key) {
-        this.apikey = key || config_1.auth_key;
-    }
-    api() {
-        return axios_1.default.create({
-            baseURL: this.baseUrl.toString(),
-            headers: {
-                "x-api-key": this.apikey,
-            },
-        });
-    }
-}
-exports.Crawlora = Crawlora;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 8579:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Plugin = void 0;
-const main_1 = __nccwpck_require__(3857);
-const form_data_1 = __importDefault(__nccwpck_require__(6454));
-const fs_1 = __nccwpck_require__(9896);
-class Plugin extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    get(dto) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get(`/plugins`, {
-                params: dto
-            });
-            return data;
-        });
-    }
-    getById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get(`/plugins/${id}`);
-            return data;
-        });
-    }
-    create(pluginData, testFilePath, codeFilePath) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const formData = new form_data_1.default();
-            Object.keys(pluginData).forEach((key) => {
-                //@ts-ignore
-                let value = pluginData[key];
-                if (typeof value !== 'string') {
-                    value = JSON.stringify(value);
-                }
-                formData.append(key, value);
-            });
-            if (testFilePath && typeof testFilePath === 'string') {
-                formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
-            }
-            if (codeFilePath && typeof codeFilePath === 'string') {
-                formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
-            }
-            if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
-                formData.append('test_data', testFilePath);
-            }
-            if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
-                formData.append('file', codeFilePath);
-            }
-            const { data } = yield this.api().post(`/plugins`, formData, {
-                headers: Object.assign({}, formData.getHeaders()),
-            });
-            return data;
-        });
-    }
-    update(id, pluginData, testFilePath, codeFilePath) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const formData = new form_data_1.default();
-            Object.keys(pluginData).forEach((key) => {
-                //@ts-ignore
-                let value = pluginData[key];
-                // Convert non-string values (like boolean) to strings
-                if (typeof value !== 'string') {
-                    value = JSON.stringify(value); // Convert to string representation
-                }
-                formData.append(key, value);
-            });
-            if (testFilePath && typeof testFilePath === 'string') {
-                formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
-            }
-            if (codeFilePath && typeof codeFilePath === 'string') {
-                formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
-            }
-            if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
-                formData.append('test_data', testFilePath);
-            }
-            if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
-                formData.append('file', codeFilePath);
-            }
-            const { data } = yield this.api().put(`/plugins/${id}`, formData, {
-                headers: Object.assign({}, formData.getHeaders()),
-            });
-            return data;
-        });
-    }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().delete(`/plugins/${id}`);
-            return data;
-        });
-    }
-}
-exports.Plugin = Plugin;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 8557:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Request = void 0;
-const main_1 = __nccwpck_require__(3857);
-class Request extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    get() {
-        return __awaiter(this, arguments, void 0, function* (page = 1, recordPerPage = 10, order = "desc") {
-            const { data } = yield this.api().get(`/requests`, {
-                params: {
-                    page,
-                    recordPerPage,
-                    order,
-                },
-            });
-            return data;
-        });
-    }
-    getById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().get(`/requests/${id}`);
-            return data;
-        });
-    }
-    create(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().post(`/requests`, body);
-            return data;
-        });
-    }
-    delete(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.api().delete(`/requests/${id}`);
-            return data;
-        });
-    }
-}
-exports.Request = Request;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
 /***/ 1324:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 module.exports =
 {
-  parallel      : __nccwpck_require__(6238),
+  parallel      : __nccwpck_require__(3857),
   serial        : __nccwpck_require__(1054),
   serialOrdered : __nccwpck_require__(3961)
 };
@@ -4013,7 +3480,7 @@ function terminator(callback)
 
 /***/ }),
 
-/***/ 6238:
+/***/ 3857:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var iterate    = __nccwpck_require__(4902)
@@ -34396,6 +33863,451 @@ exports.NEVER = parseUtil_1.INVALID;
 
 /***/ }),
 
+/***/ 7492:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Analytics = void 0;
+const main_1 = __nccwpck_require__(465);
+class Analytics extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    async get() {
+        const { data } = await this.api().get("/analytics");
+        return data;
+    }
+}
+exports.Analytics = Analytics;
+
+
+/***/ }),
+
+/***/ 9000:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Application = void 0;
+const form_data_1 = __importDefault(__nccwpck_require__(6454));
+const main_1 = __nccwpck_require__(465);
+const fs_1 = __nccwpck_require__(9896);
+class Application extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    async get(page = 1, recordPerPage = 10, order = "desc") {
+        const { data } = await this.api().get(`/application`, {
+            params: {
+                page,
+                recordPerPage,
+                order,
+            },
+        });
+        return data;
+    }
+    async getById(id) {
+        const { data } = await this.api().get(`/application/${id}`);
+        return data;
+    }
+    async create(body) {
+        const form = new form_data_1.default();
+        form.append("title", body.title);
+        form.append("description", body.description);
+        form.append("file", (0, fs_1.createReadStream)(body.file_path));
+        form.append("icon", (0, fs_1.createReadStream)(body.icon));
+        form.append("banner", (0, fs_1.createReadStream)(body.banner));
+        form.append("author", body.author);
+        form.append("version", body.version);
+        form.append("short_description", body.short_description);
+        // Append each input item
+        body.input.forEach((input) => {
+            const info = JSON.stringify(input);
+            form.append("input", info);
+        });
+        body.screenshots.forEach((inp) => {
+            form.append("screenshots", (0, fs_1.createReadStream)(inp));
+        });
+        const { data } = await this.api().post(`/application`, form, {
+            headers: {
+                ...form.getHeaders(),
+            },
+        });
+        return data;
+    }
+    async update(id, body) {
+        const form = new form_data_1.default();
+        form.append("title", body.title);
+        form.append("description", body.description);
+        form.append("short_description", body.short_description);
+        if (body.file_path) {
+            form.append("file", (0, fs_1.createReadStream)(body.file_path));
+        }
+        if (body.icon) {
+            form.append("icon", (0, fs_1.createReadStream)(body.icon));
+        }
+        if (body.banner) {
+            form.append("banner", (0, fs_1.createReadStream)(body.banner));
+        }
+        form.append("author", body.author);
+        form.append("version", body.version);
+        // Append each input item
+        body?.input?.forEach((input) => {
+            const info = JSON.stringify(input);
+            form.append("input", info);
+        });
+        body?.screenshots?.forEach((inp) => {
+            form.append("screenshots", (0, fs_1.createReadStream)(inp));
+        });
+        const { data } = await this.api().put(`/application/${id}`, form, {
+            headers: {
+                ...form.getHeaders()
+            }
+        });
+        return data;
+    }
+    async delete(id) {
+        const { data } = await this.api().delete(`/application/${id}`);
+        return data;
+    }
+}
+exports.Application = Application;
+
+
+/***/ }),
+
+/***/ 3536:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(9000), exports);
+__exportStar(__nccwpck_require__(1588), exports);
+__exportStar(__nccwpck_require__(9308), exports);
+
+
+/***/ }),
+
+/***/ 1588:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Sequence = void 0;
+const main_1 = __nccwpck_require__(465);
+class Sequence extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    async get(page = 1, recordPerPage = 10, order = 'desc') {
+        const { data } = await this.api().get(`/sequence`, {
+            params: {
+                page,
+                recordPerPage,
+                order
+            }
+        });
+        return data;
+    }
+    async getById(id) {
+        const { data } = await this.api().get(`/sequence/${id}`);
+        return data;
+    }
+    async create(body) {
+        const { data } = await this.api().post(`/sequence`, body);
+        return data;
+    }
+    async update(id, body) {
+        const { data } = await this.api().put(`/sequence/${id}`, body);
+        return data;
+    }
+    async delete(id) {
+        const { data } = await this.api().delete(`/sequence/${id}`);
+        return data;
+    }
+}
+exports.Sequence = Sequence;
+
+
+/***/ }),
+
+/***/ 9308:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SequenceOutput = void 0;
+const main_1 = __nccwpck_require__(465);
+class SequenceOutput extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    async getById(id) {
+        const { data } = await this.api().get(`/sequence-output/${id}`);
+        return data;
+    }
+    async create(body) {
+        const { data } = await this.api().post(`/sequence-output`, body);
+        return data;
+    }
+}
+exports.SequenceOutput = SequenceOutput;
+
+
+/***/ }),
+
+/***/ 293:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.auth_key = exports.getEnv = void 0;
+const getEnv = (key, def, shouldCrash = true) => {
+    const { env } = process;
+    const value = env[key] || def;
+    if (typeof value !== 'string' && shouldCrash === true) {
+        throw new Error(`env ${key} did not found in env`);
+    }
+    return value;
+};
+exports.getEnv = getEnv;
+exports.auth_key = (0, exports.getEnv)('CRAWLORA_AUTH_KEY', undefined, false); // provided by default
+
+
+/***/ }),
+
+/***/ 4647:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(465), exports);
+__exportStar(__nccwpck_require__(7492), exports);
+__exportStar(__nccwpck_require__(3536), exports);
+__exportStar(__nccwpck_require__(4363), exports);
+__exportStar(__nccwpck_require__(1445), exports);
+
+
+/***/ }),
+
+/***/ 465:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Crawlora = void 0;
+const axios_1 = __importDefault(__nccwpck_require__(7269));
+const config_1 = __nccwpck_require__(293);
+class Crawlora {
+    apikey;
+    baseUrl = new URL("https://api.crawlora.com/api/v1");
+    constructor(apiKey, baseUrl) {
+        if (apiKey) {
+            this.setApikey(apiKey);
+        }
+        if (baseUrl) {
+            this.setBaseUrl(baseUrl);
+        }
+    }
+    setBaseUrl(url) {
+        this.baseUrl = url;
+    }
+    setApikey(key) {
+        this.apikey = key || config_1.auth_key;
+    }
+    api() {
+        return axios_1.default.create({
+            baseURL: this.baseUrl.toString(),
+            headers: {
+                "x-api-key": this.apikey,
+            },
+        });
+    }
+}
+exports.Crawlora = Crawlora;
+
+
+/***/ }),
+
+/***/ 4363:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Plugin = void 0;
+const main_1 = __nccwpck_require__(465);
+const form_data_1 = __importDefault(__nccwpck_require__(6454));
+const fs_1 = __nccwpck_require__(9896);
+class Plugin extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    async get(dto) {
+        const { data } = await this.api().get(`/plugins`, {
+            params: dto
+        });
+        return data;
+    }
+    async getById(id) {
+        const { data } = await this.api().get(`/plugins/${id}`);
+        return data;
+    }
+    async create(pluginData, testFilePath, codeFilePath) {
+        const formData = new form_data_1.default();
+        Object.keys(pluginData).forEach((key) => {
+            //@ts-ignore
+            let value = pluginData[key];
+            if (typeof value !== 'string') {
+                value = JSON.stringify(value);
+            }
+            formData.append(key, value);
+        });
+        if (testFilePath && typeof testFilePath === 'string') {
+            formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
+        }
+        if (codeFilePath && typeof codeFilePath === 'string') {
+            formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
+        }
+        if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
+            formData.append('test_data', testFilePath);
+        }
+        if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
+            formData.append('file', codeFilePath);
+        }
+        const { data } = await this.api().post(`/plugins`, formData, {
+            headers: {
+                ...formData.getHeaders()
+            },
+        });
+        return data;
+    }
+    async update(id, pluginData, testFilePath, codeFilePath) {
+        const formData = new form_data_1.default();
+        Object.keys(pluginData).forEach((key) => {
+            //@ts-ignore
+            let value = pluginData[key];
+            // Convert non-string values (like boolean) to strings
+            if (typeof value !== 'string') {
+                value = JSON.stringify(value); // Convert to string representation
+            }
+            formData.append(key, value);
+        });
+        if (testFilePath && typeof testFilePath === 'string') {
+            formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
+        }
+        if (codeFilePath && typeof codeFilePath === 'string') {
+            formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
+        }
+        if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
+            formData.append('test_data', testFilePath);
+        }
+        if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
+            formData.append('file', codeFilePath);
+        }
+        const { data } = await this.api().put(`/plugins/${id}`, formData, {
+            headers: {
+                ...formData.getHeaders()
+            },
+        });
+        return data;
+    }
+    async delete(id) {
+        const { data } = await this.api().delete(`/plugins/${id}`);
+        return data;
+    }
+}
+exports.Plugin = Plugin;
+
+
+/***/ }),
+
+/***/ 1445:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Request = void 0;
+const main_1 = __nccwpck_require__(465);
+class Request extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    async get(page = 1, recordPerPage = 10, order = "desc") {
+        const { data } = await this.api().get(`/requests`, {
+            params: {
+                page,
+                recordPerPage,
+                order,
+            },
+        });
+        return data;
+    }
+    async getById(id) {
+        const { data } = await this.api().get(`/requests/${id}`);
+        return data;
+    }
+    async create(body) {
+        const { data } = await this.api().post(`/requests`, body);
+        return data;
+    }
+    async delete(id) {
+        const { data } = await this.api().delete(`/requests/${id}`);
+        return data;
+    }
+}
+exports.Request = Request;
+
+
+/***/ }),
+
 /***/ 8422:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -34480,7 +34392,7 @@ const changeDir_1 = __nccwpck_require__(6134);
 const getCrawloraFile_1 = __nccwpck_require__(6138);
 const compress_1 = __nccwpck_require__(1053);
 const fs_1 = __nccwpck_require__(9896);
-const sdk_1 = __nccwpck_require__(6551);
+const app_1 = __nccwpck_require__(4647);
 const axios_1 = __nccwpck_require__(7269);
 /**
  * The main function for the action.
@@ -34498,7 +34410,7 @@ async function run() {
         const fileInfo = (0, getCrawloraFile_1.getCrawloraFile)(cwd);
         const zipFile = await (0, compress_1.compress)(cwd);
         core.debug(JSON.stringify(fileInfo));
-        const app = new sdk_1.Application(apikey);
+        const app = new app_1.Application(apikey);
         // if app_id exists then we should update it else create it
         if (fileInfo.app_id) {
             // update it
@@ -34513,7 +34425,8 @@ async function run() {
                 author: fileInfo.author || 'admin',
                 screenshots: fileInfo.screenshot_files,
                 title: fileInfo.title,
-                version: fileInfo.version
+                version: fileInfo.version,
+                short_description: fileInfo.short_description
             });
             core.debug(`got message: ${msg.message || 'code updated successfully'}`);
             return;
@@ -34521,6 +34434,7 @@ async function run() {
         const msg = await app.create({
             file_path: zipFile,
             input: JSON.parse((0, fs_1.readFileSync)(fileInfo.input_file, { encoding: 'utf-8' })),
+            short_description: fileInfo.short_description,
             description: (0, fs_1.readFileSync)(fileInfo.documentation_file, {
                 encoding: 'utf-8'
             }),
