@@ -34505,7 +34505,9 @@ async function run() {
             const msg = await app.update(fileInfo.app_id, {
                 file_path: zipFile,
                 input: JSON.parse((0, fs_1.readFileSync)(fileInfo.input_file, { encoding: 'utf-8' })),
-                description: (0, fs_1.readFileSync)(fileInfo.documentation_file, { encoding: 'utf-8' }),
+                description: (0, fs_1.readFileSync)(fileInfo.documentation_file, {
+                    encoding: 'utf-8'
+                }),
                 icon: fileInfo.logo_file,
                 banner: fileInfo.banner_file,
                 author: fileInfo.author || 'admin',
@@ -34513,13 +34515,15 @@ async function run() {
                 title: fileInfo.title,
                 version: fileInfo.version
             });
-            core.debug(`got message: ${msg.message || "code updated successfully"}`);
+            core.debug(`got message: ${msg.message || 'code updated successfully'}`);
             return;
         }
         const msg = await app.create({
             file_path: zipFile,
             input: JSON.parse((0, fs_1.readFileSync)(fileInfo.input_file, { encoding: 'utf-8' })),
-            description: (0, fs_1.readFileSync)(fileInfo.documentation_file, { encoding: 'utf-8' }),
+            description: (0, fs_1.readFileSync)(fileInfo.documentation_file, {
+                encoding: 'utf-8'
+            }),
             icon: fileInfo.logo_file,
             banner: fileInfo.banner_file,
             author: fileInfo.author || 'admin',
@@ -34527,17 +34531,17 @@ async function run() {
             title: fileInfo.title,
             version: fileInfo.version
         });
-        core.debug(`got message: ${msg.message || "code updated successfully"}`);
+        core.debug(`got message: ${msg.message || 'code updated successfully'}`);
         // upload the files
     }
     catch (error) {
-        // Fail the workflow run if an error occurs
-        core.debug(error.message);
         if (error instanceof axios_1.AxiosError) {
             console.error(error.response?.data);
         }
-        if (error instanceof Error)
+        if (error instanceof Error) {
+            core.debug(error.message);
             core.setFailed(error);
+        }
     }
 }
 
@@ -34628,16 +34632,34 @@ const fs_1 = __nccwpck_require__(9896);
 const path_1 = __nccwpck_require__(6928);
 exports.crawloraFileValidation = zod_1.z.object({
     env: zod_1.z.record(zod_1.z.string(), zod_1.z.string()),
-    entrypoint: zod_1.z.string().min(1, "Entrypoint cannot be empty"),
-    function: zod_1.z.string().min(1, "Function name cannot be empty"),
-    screenshot_files: zod_1.z.string().array().min(3, "There must be at least three screenshot file").transform(v => v.map(v => (0, path_1.resolve)(process.cwd(), v))),
-    logo_file: zod_1.z.string().min(1, "Logo file path cannot be empty").transform(v => (0, path_1.resolve)(process.cwd(), v)),
-    banner_file: zod_1.z.string().min(1, "Banner file path cannot be empty").transform(v => (0, path_1.resolve)(process.cwd(), v)),
-    title: zod_1.z.string().min(1, "Title cannot be empty"),
-    short_description: zod_1.z.string().min(1, "Short description cannot be empty"),
-    version: zod_1.z.string().regex(/^\d+\.\d+\.\d+$/, "Version must follow semantic versioning (x.x.x)"),
-    documentation_file: zod_1.z.string().min(1, "Documentation file path cannot be empty").transform(v => (0, path_1.resolve)(process.cwd(), v)),
-    input_file: zod_1.z.string().min(1, "Input file path cannot be empty").transform(v => (0, path_1.resolve)(process.cwd(), v)),
+    entrypoint: zod_1.z.string().min(1, 'Entrypoint cannot be empty'),
+    function: zod_1.z.string().min(1, 'Function name cannot be empty'),
+    screenshot_files: zod_1.z
+        .string()
+        .array()
+        .min(3, 'There must be at least three screenshot file')
+        .transform(v => v.map(v => (0, path_1.resolve)(process.cwd(), v))),
+    logo_file: zod_1.z
+        .string()
+        .min(1, 'Logo file path cannot be empty')
+        .transform(v => (0, path_1.resolve)(process.cwd(), v)),
+    banner_file: zod_1.z
+        .string()
+        .min(1, 'Banner file path cannot be empty')
+        .transform(v => (0, path_1.resolve)(process.cwd(), v)),
+    title: zod_1.z.string().min(1, 'Title cannot be empty'),
+    short_description: zod_1.z.string().min(1, 'Short description cannot be empty'),
+    version: zod_1.z
+        .string()
+        .regex(/^\d+\.\d+\.\d+$/, 'Version must follow semantic versioning (x.x.x)'),
+    documentation_file: zod_1.z
+        .string()
+        .min(1, 'Documentation file path cannot be empty')
+        .transform(v => (0, path_1.resolve)(process.cwd(), v)),
+    input_file: zod_1.z
+        .string()
+        .min(1, 'Input file path cannot be empty')
+        .transform(v => (0, path_1.resolve)(process.cwd(), v)),
     app_id: zod_1.z.string().uuid().nullable().optional(),
     author: zod_1.z.string().optional().nullable()
 });
@@ -34664,7 +34686,7 @@ exports.getCrawloraFile = exports.crawloraFile = void 0;
 const path_1 = __nccwpck_require__(6928);
 const fs_1 = __importDefault(__nccwpck_require__(9896));
 const fileValidation_1 = __nccwpck_require__(1388);
-exports.crawloraFile = "crawlora.json";
+exports.crawloraFile = 'crawlora.json';
 const getCrawloraFile = (dir) => {
     const file = (0, path_1.resolve)(dir, exports.crawloraFile);
     if (!fs_1.default.existsSync(file)) {

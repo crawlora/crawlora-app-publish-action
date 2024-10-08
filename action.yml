@@ -16,7 +16,7 @@ inputs:
   auth_key:
     description: 'api key from crawlora'
     required: true
-    default: "fake"
+    default: 'fake'
 
 runs:
   using: node20

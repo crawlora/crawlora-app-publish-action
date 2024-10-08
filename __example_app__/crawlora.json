@@ -1,16 +1,21 @@
 {
-    "env":{
-        "key":"value"
-    },
-    "entrypoint": "./.dist/index.js",
-    "function": "default",
-    "screenshot_files": ["./assets/screenshot_1.png", "./assets/screenshot_2.png", "./assets/screenshot_3.png", "./assets/screenshot_4.png"],
-    "logo_file": "./assets/logo.png",
-    "banner_file": "./assets/banner.png",
-    "title": "Google search links scrapper",
-    "short_description": "Get google links quickly",
-    "version":"1.0.0",
-    "documentation_file": "./documentation.md",
-    "input_file": "./input.json",
-    "author": "admin <admin@crawlora.com>"
+  "env": {
+    "key": "value"
+  },
+  "entrypoint": "./.dist/index.js",
+  "function": "default",
+  "screenshot_files": [
+    "./assets/screenshot_1.png",
+    "./assets/screenshot_2.png",
+    "./assets/screenshot_3.png",
+    "./assets/screenshot_4.png"
+  ],
+  "logo_file": "./assets/logo.png",
+  "banner_file": "./assets/banner.png",
+  "title": "Google search links scrapper",
+  "short_description": "Get google links quickly",
+  "version": "1.0.0",
+  "documentation_file": "./documentation.md",
+  "input_file": "./input.json",
+  "author": "admin <admin@crawlora.com>"
 }
