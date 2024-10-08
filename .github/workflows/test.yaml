@@ -1,6 +1,7 @@
 name: Test Action Locally
 
-on: push
+on: 
+  workflow_dispatch:
 
 jobs:
   test-action:
@@ -17,7 +18,7 @@ jobs:
         id: test-action
         uses: ./
         env:
-          CRAWLORA_AUTH_KEY: 15759d84a019af47798293d0b0b67f0f0bab8b3bf257d1e0b155e2ecb963ce87a24f7a52305b10380d54dfd360f24e3b0e9b8d7e56a289ef20d53004a5e59d95
+          CRAWLORA_AUTH_KEY: ${{ secrets.CRAWLORA_AUTH_KEY }}
         with:
           working-directory: ./__example_app__
-          auth_key: 15759d84a019af47798293d0b0b67f0f0bab8b3bf257d1e0b155e2ecb963ce87a24f7a52305b10380d54dfd360f24e3b0e9b8d7e56a289ef20d53004a5e59d95
+          auth_key: ${{ secrets.CRAWLORA_AUTH_KEY }}
