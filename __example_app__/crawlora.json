@@ -12,11 +12,11 @@
   ],
   "logo_file": "./assets/logo.png",
   "banner_file": "./assets/banner.png",
-  "title": "Google search links scrapper",
+  "title": "test scrapper",
   "short_description": "Get google links quickly",
   "version": "1.0.0",
   "documentation_file": "./documentation.md",
   "input_file": "./input.json",
   "author": "admin <admin@crawlora.com>",
-  "app_id": "4eb81f2b-cabb-44cf-92ba-06600066f183"
+  "app_id": "1c2c64f9-d9d7-4103-a7ec-a0c29338a04f"
 }
