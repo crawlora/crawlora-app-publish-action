@@ -12,7 +12,7 @@
   ],
   "logo_file": "./assets/logo.png",
   "banner_file": "./assets/banner.png",
-  "title": "test scrapper",
+  "title": "App publish scrapper",
   "short_description": "Get google links quickly",
   "version": "1.0.0",
   "documentation_file": "./documentation.md",
