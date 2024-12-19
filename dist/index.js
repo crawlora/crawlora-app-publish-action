@@ -3195,12 +3195,639 @@ function copyFile(srcFile, destFile, force) {
 
 /***/ }),
 
+/***/ 3924:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Analytics = void 0;
+const main_1 = __nccwpck_require__(3857);
+class Analytics extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    get() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get("/analytics");
+            return data;
+        });
+    }
+}
+exports.Analytics = Analytics;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 7856:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Application = void 0;
+const form_data_1 = __importDefault(__nccwpck_require__(6454));
+const main_1 = __nccwpck_require__(3857);
+const fs_1 = __nccwpck_require__(9896);
+class Application extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    get() {
+        return __awaiter(this, arguments, void 0, function* (page = 1, recordPerPage = 10, order = "desc") {
+            const { data } = yield this.api().get(`/application`, {
+                params: { page, recordPerPage, order },
+            });
+            return data;
+        });
+    }
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get(`/application/${id}`);
+            return data;
+        });
+    }
+    create(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const form = new form_data_1.default();
+            form.append("title", body.title);
+            form.append("description", body.description);
+            form.append("file", (0, fs_1.createReadStream)(body.file_path));
+            form.append("icon", (0, fs_1.createReadStream)(body.icon));
+            form.append("banner", (0, fs_1.createReadStream)(body.banner));
+            form.append("author", body.author);
+            form.append("version", body.version);
+            form.append("short_description", body.short_description);
+            if (body.input && Array.isArray(body.input)) {
+                form.append("input", JSON.stringify(body.input));
+            }
+            else {
+                console.warn("Input is missing or not an array");
+            }
+            if (body.screenshots && Array.isArray(body.screenshots)) {
+                body.screenshots.forEach((inp) => {
+                    form.append("screenshots", (0, fs_1.createReadStream)(inp));
+                });
+            }
+            else {
+                console.warn("Screenshots are missing or not an array");
+            }
+            const { data } = yield this.api().post(`/application`, form, {
+                headers: Object.assign({}, form.getHeaders()),
+            });
+            return data;
+        });
+    }
+    update(id, body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const form = new form_data_1.default();
+            if (body.title)
+                form.append("title", body.title);
+            if (body.description)
+                form.append("description", body.description);
+            if (body.short_description)
+                form.append("short_description", body.short_description);
+            if (body.file_path)
+                form.append("file", (0, fs_1.createReadStream)(body.file_path));
+            if (body.icon)
+                form.append("icon", (0, fs_1.createReadStream)(body.icon));
+            if (body.banner)
+                form.append("banner", (0, fs_1.createReadStream)(body.banner));
+            if (body.author)
+                form.append("author", body.author);
+            if (body.version)
+                form.append("version", body.version);
+            if (body.input && Array.isArray(body.input))
+                form.append("input", JSON.stringify(body.input));
+            if (body.screenshots && Array.isArray(body.screenshots)) {
+                body.screenshots.forEach((inp) => {
+                    form.append("screenshots", (0, fs_1.createReadStream)(inp));
+                });
+            }
+            const { data } = yield this.api().put(`/application/${id}`, form, {
+                headers: Object.assign({}, form.getHeaders()),
+            });
+            return data;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().delete(`/application/${id}`);
+            return data;
+        });
+    }
+}
+exports.Application = Application;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 1908:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(7856), exports);
+__exportStar(__nccwpck_require__(9300), exports);
+__exportStar(__nccwpck_require__(2536), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 9300:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Sequence = void 0;
+const main_1 = __nccwpck_require__(3857);
+class Sequence extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    get() {
+        return __awaiter(this, arguments, void 0, function* (page = 1, recordPerPage = 10, order = 'desc') {
+            const { data } = yield this.api().get(`/sequence`, {
+                params: {
+                    page,
+                    recordPerPage,
+                    order
+                }
+            });
+            return data;
+        });
+    }
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get(`/sequence/${id}`);
+            return data;
+        });
+    }
+    create(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().post(`/sequence`, body);
+            return data;
+        });
+    }
+    update(id, body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().put(`/sequence/${id}`, body);
+            return data;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().delete(`/sequence/${id}`);
+            return data;
+        });
+    }
+}
+exports.Sequence = Sequence;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 2536:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SequenceOutput = void 0;
+const main_1 = __nccwpck_require__(3857);
+class SequenceOutput extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get(`/sequence-output/${id}`);
+            return data;
+        });
+    }
+    create(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().post(`/sequence-output`, body);
+            return data;
+        });
+    }
+}
+exports.SequenceOutput = SequenceOutput;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 5901:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.base_url = exports.admin_key = exports.auth_key = exports.getEnv = void 0;
+const getEnv = (key, def, shouldCrash = true) => {
+    const { env } = process;
+    const value = env[key] || def;
+    if (typeof value !== 'string' && shouldCrash === true) {
+        throw new Error(`env ${key} did not found in env`);
+    }
+    return value;
+};
+exports.getEnv = getEnv;
+exports.auth_key = (0, exports.getEnv)('CRAWLORA_AUTH_KEY', undefined, false); // provided by default
+exports.admin_key = (0, exports.getEnv)('CRAWLORA_ADMIN_KEY', undefined, false); // provided by default
+exports.base_url = (0, exports.getEnv)('CRAWLORA_BASE_URL', 'https://api.crawlora.com/api/v1', true);
+//# sourceMappingURL=config.js.map
+
+/***/ }),
+
+/***/ 6551:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(3857), exports);
+__exportStar(__nccwpck_require__(3924), exports);
+__exportStar(__nccwpck_require__(1908), exports);
+__exportStar(__nccwpck_require__(8579), exports);
+__exportStar(__nccwpck_require__(8557), exports);
+__exportStar(__nccwpck_require__(2380), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 3857:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Crawlora = void 0;
+const axios_1 = __importDefault(__nccwpck_require__(7269));
+const config_1 = __nccwpck_require__(5901);
+class Crawlora {
+    constructor(apiKey, baseUrl) {
+        this.baseUrl = new URL(config_1.base_url);
+        if (apiKey) {
+            this.setApikey(apiKey);
+        }
+        if (baseUrl) {
+            this.setBaseUrl(baseUrl);
+        }
+    }
+    setBaseUrl(url) {
+        this.baseUrl = url;
+    }
+    setApikey(key) {
+        this.apikey = key || config_1.auth_key;
+    }
+    api() {
+        return axios_1.default.create({
+            baseURL: this.baseUrl.toString(),
+            headers: {
+                "x-api-key": this.apikey,
+                "x-admin-key": config_1.admin_key,
+            },
+        });
+    }
+}
+exports.Crawlora = Crawlora;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 16:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ZBaseTypes = void 0;
+const zod_1 = __nccwpck_require__(4809);
+exports.ZBaseTypes = zod_1.z.object({
+    message: zod_1.z.string().optional()
+});
+//# sourceMappingURL=types.js.map
+
+/***/ }),
+
+/***/ 8579:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Plugin = void 0;
+const main_1 = __nccwpck_require__(3857);
+const form_data_1 = __importDefault(__nccwpck_require__(6454));
+const fs_1 = __nccwpck_require__(9896);
+class Plugin extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    get(dto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get(`/plugins`, {
+                params: dto
+            });
+            return data;
+        });
+    }
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get(`/plugins/${id}`);
+            return data;
+        });
+    }
+    create(pluginData, testFilePath, codeFilePath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const formData = new form_data_1.default();
+            Object.keys(pluginData).forEach((key) => {
+                //@ts-ignore
+                let value = pluginData[key];
+                if (typeof value !== 'string') {
+                    value = JSON.stringify(value);
+                }
+                formData.append(key, value);
+            });
+            if (testFilePath && typeof testFilePath === 'string') {
+                formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
+            }
+            if (codeFilePath && typeof codeFilePath === 'string') {
+                formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
+            }
+            if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
+                formData.append('test_data', testFilePath);
+            }
+            if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
+                formData.append('file', codeFilePath);
+            }
+            const { data } = yield this.api().post(`/plugins`, formData, {
+                headers: Object.assign({}, formData.getHeaders()),
+            });
+            return data;
+        });
+    }
+    update(id, pluginData, testFilePath, codeFilePath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const formData = new form_data_1.default();
+            Object.keys(pluginData).forEach((key) => {
+                //@ts-ignore
+                let value = pluginData[key];
+                // Convert non-string values (like boolean) to strings
+                if (typeof value !== 'string') {
+                    value = JSON.stringify(value); // Convert to string representation
+                }
+                formData.append(key, value);
+            });
+            if (testFilePath && typeof testFilePath === 'string') {
+                formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
+            }
+            if (codeFilePath && typeof codeFilePath === 'string') {
+                formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
+            }
+            if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
+                formData.append('test_data', testFilePath);
+            }
+            if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
+                formData.append('file', codeFilePath);
+            }
+            const { data } = yield this.api().put(`/plugins/${id}`, formData, {
+                headers: Object.assign({}, formData.getHeaders()),
+            });
+            return data;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().delete(`/plugins/${id}`);
+            return data;
+        });
+    }
+}
+exports.Plugin = Plugin;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 2380:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Proxy = void 0;
+const main_1 = __nccwpck_require__(3857);
+const types_1 = __nccwpck_require__(1225);
+__exportStar(__nccwpck_require__(1225), exports);
+class Proxy extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    getProxy(country_code) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get('proxy', { params: { country_code: country_code === null || country_code === void 0 ? void 0 : country_code.toUpperCase() } });
+            return types_1.ZProxyResponse.parse(data);
+        });
+    }
+}
+exports.Proxy = Proxy;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 1225:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ZProxyResponse = void 0;
+const types_1 = __nccwpck_require__(16);
+const zod_1 = __nccwpck_require__(4809);
+exports.ZProxyResponse = types_1.ZBaseTypes.extend({
+    data: zod_1.z.object({
+        protocol: zod_1.z.string(),
+        host: zod_1.z.string(),
+        username: zod_1.z.string(),
+        password: zod_1.z.string(),
+        port: zod_1.z.string().transform(Number)
+    })
+});
+//# sourceMappingURL=types.js.map
+
+/***/ }),
+
+/***/ 8557:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Request = void 0;
+const main_1 = __nccwpck_require__(3857);
+class Request extends main_1.Crawlora {
+    constructor(apiKey, baseUrl) {
+        super(apiKey, baseUrl);
+    }
+    get() {
+        return __awaiter(this, arguments, void 0, function* (page = 1, recordPerPage = 10, order = "desc") {
+            const { data } = yield this.api().get(`/requests`, {
+                params: {
+                    page,
+                    recordPerPage,
+                    order,
+                },
+            });
+            return data;
+        });
+    }
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().get(`/requests/${id}`);
+            return data;
+        });
+    }
+    create(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().post(`/requests`, body);
+            return data;
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield this.api().delete(`/requests/${id}`);
+            return data;
+        });
+    }
+}
+exports.Request = Request;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ 1324:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 module.exports =
 {
-  parallel      : __nccwpck_require__(3857),
+  parallel      : __nccwpck_require__(6238),
   serial        : __nccwpck_require__(1054),
   serialOrdered : __nccwpck_require__(3961)
 };
@@ -3480,7 +4107,7 @@ function terminator(callback)
 
 /***/ }),
 
-/***/ 3857:
+/***/ 6238:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var iterate    = __nccwpck_require__(4902)
@@ -3985,6 +4612,7 @@ function useColors() {
 
 	// Is webkit? http://stackoverflow.com/a/16459606/376773
 	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+	// eslint-disable-next-line no-return-assign
 	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
 		// Is firebug? http://stackoverflow.com/a/398120/376773
 		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
@@ -4300,24 +4928,62 @@ function setup(env) {
 		createDebug.names = [];
 		createDebug.skips = [];
 
-		let i;
-		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-		const len = split.length;
+		const split = (typeof namespaces === 'string' ? namespaces : '')
+			.trim()
+			.replace(' ', ',')
+			.split(',')
+			.filter(Boolean);
 
-		for (i = 0; i < len; i++) {
-			if (!split[i]) {
-				// ignore empty strings
-				continue;
-			}
-
-			namespaces = split[i].replace(/\*/g, '.*?');
-
-			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.slice(1) + '$'));
+		for (const ns of split) {
+			if (ns[0] === '-') {
+				createDebug.skips.push(ns.slice(1));
 			} else {
-				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+				createDebug.names.push(ns);
 			}
 		}
+	}
+
+	/**
+	 * Checks if the given string matches a namespace template, honoring
+	 * asterisks as wildcards.
+	 *
+	 * @param {String} search
+	 * @param {String} template
+	 * @return {Boolean}
+	 */
+	function matchesTemplate(search, template) {
+		let searchIndex = 0;
+		let templateIndex = 0;
+		let starIndex = -1;
+		let matchIndex = 0;
+
+		while (searchIndex < search.length) {
+			if (templateIndex < template.length && (template[templateIndex] === search[searchIndex] || template[templateIndex] === '*')) {
+				// Match character or proceed with wildcard
+				if (template[templateIndex] === '*') {
+					starIndex = templateIndex;
+					matchIndex = searchIndex;
+					templateIndex++; // Skip the '*'
+				} else {
+					searchIndex++;
+					templateIndex++;
+				}
+			} else if (starIndex !== -1) { // eslint-disable-line no-negated-condition
+				// Backtrack to the last '*' and try to match more characters
+				templateIndex = starIndex + 1;
+				matchIndex++;
+				searchIndex = matchIndex;
+			} else {
+				return false; // No match
+			}
+		}
+
+		// Handle trailing '*' in template
+		while (templateIndex < template.length && template[templateIndex] === '*') {
+			templateIndex++;
+		}
+
+		return templateIndex === template.length;
 	}
 
 	/**
@@ -4328,8 +4994,8 @@ function setup(env) {
 	*/
 	function disable() {
 		const namespaces = [
-			...createDebug.names.map(toNamespace),
-			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+			...createDebug.names,
+			...createDebug.skips.map(namespace => '-' + namespace)
 		].join(',');
 		createDebug.enable('');
 		return namespaces;
@@ -4343,39 +5009,19 @@ function setup(env) {
 	* @api public
 	*/
 	function enabled(name) {
-		if (name[name.length - 1] === '*') {
-			return true;
-		}
-
-		let i;
-		let len;
-
-		for (i = 0, len = createDebug.skips.length; i < len; i++) {
-			if (createDebug.skips[i].test(name)) {
+		for (const skip of createDebug.skips) {
+			if (matchesTemplate(name, skip)) {
 				return false;
 			}
 		}
 
-		for (i = 0, len = createDebug.names.length; i < len; i++) {
-			if (createDebug.names[i].test(name)) {
+		for (const ns of createDebug.names) {
+			if (matchesTemplate(name, ns)) {
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	* Convert regexp to namespace
-	*
-	* @param {RegExp} regxep
-	* @return {String} namespace
-	* @api private
-	*/
-	function toNamespace(regexp) {
-		return regexp.toString()
-			.substring(2, regexp.toString().length - 2)
-			.replace(/\.\*\?$/, '*');
 	}
 
 	/**
@@ -5592,7 +6238,7 @@ FormData.prototype.append = function(field, value, options) {
   }
 
   // https://github.com/felixge/node-form-data/issues/38
-  if (util.isArray(value)) {
+  if (Array.isArray(value)) {
     // Please convert your array into string
     // the way web server expects it
     this._error(new Error('Arrays are not supported.'));
@@ -29531,6 +30177,9 @@ const quotelessJson = (obj) => {
 };
 exports.quotelessJson = quotelessJson;
 class ZodError extends Error {
+    get errors() {
+        return this.issues;
+    }
     constructor(issues) {
         super();
         this.issues = [];
@@ -29550,9 +30199,6 @@ class ZodError extends Error {
         }
         this.name = "ZodError";
         this.issues = issues;
-    }
-    get errors() {
-        return this.issues;
     }
     format(_mapper) {
         const mapper = _mapper ||
@@ -29676,7 +30322,11 @@ exports.getErrorMap = getErrorMap;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -29706,7 +30356,7 @@ var errorUtil;
 (function (errorUtil) {
     errorUtil.errToObj = (message) => typeof message === "string" ? { message } : message || {};
     errorUtil.toString = (message) => typeof message === "string" ? message : message === null || message === void 0 ? void 0 : message.message;
-})(errorUtil = exports.errorUtil || (exports.errorUtil = {}));
+})(errorUtil || (exports.errorUtil = errorUtil = {}));
 
 
 /***/ }),
@@ -29760,9 +30410,9 @@ function addIssueToContext(ctx, issueData) {
         data: ctx.data,
         path: ctx.path,
         errorMaps: [
-            ctx.common.contextualErrorMap,
-            ctx.schemaErrorMap,
-            overrideMap,
+            ctx.common.contextualErrorMap, // contextual error map is first priority
+            ctx.schemaErrorMap, // then schema-bound map if available
+            overrideMap, // then global override map
             overrideMap === en_1.default ? undefined : en_1.default, // then global default map
         ].filter((x) => !!x),
     });
@@ -29923,7 +30573,7 @@ var util;
         }
         return value;
     };
-})(util = exports.util || (exports.util = {}));
+})(util || (exports.util = util = {}));
 var objectUtil;
 (function (objectUtil) {
     objectUtil.mergeShapes = (first, second) => {
@@ -29932,7 +30582,7 @@ var objectUtil;
             ...second, // second overwrites first
         };
     };
-})(objectUtil = exports.objectUtil || (exports.objectUtil = {}));
+})(objectUtil || (exports.objectUtil = objectUtil = {}));
 exports.ZodParsedType = util.arrayToEnum([
     "string",
     "nan",
@@ -30011,7 +30661,11 @@ exports.getParsedType = getParsedType;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -30268,35 +30922,6 @@ function processCreateParams(params) {
     return { errorMap: customMap, description };
 }
 class ZodType {
-    constructor(def) {
-        /** Alias of safeParseAsync */
-        this.spa = this.safeParseAsync;
-        this._def = def;
-        this.parse = this.parse.bind(this);
-        this.safeParse = this.safeParse.bind(this);
-        this.parseAsync = this.parseAsync.bind(this);
-        this.safeParseAsync = this.safeParseAsync.bind(this);
-        this.spa = this.spa.bind(this);
-        this.refine = this.refine.bind(this);
-        this.refinement = this.refinement.bind(this);
-        this.superRefine = this.superRefine.bind(this);
-        this.optional = this.optional.bind(this);
-        this.nullable = this.nullable.bind(this);
-        this.nullish = this.nullish.bind(this);
-        this.array = this.array.bind(this);
-        this.promise = this.promise.bind(this);
-        this.or = this.or.bind(this);
-        this.and = this.and.bind(this);
-        this.transform = this.transform.bind(this);
-        this.brand = this.brand.bind(this);
-        this.default = this.default.bind(this);
-        this.catch = this.catch.bind(this);
-        this.describe = this.describe.bind(this);
-        this.pipe = this.pipe.bind(this);
-        this.readonly = this.readonly.bind(this);
-        this.isNullable = this.isNullable.bind(this);
-        this.isOptional = this.isOptional.bind(this);
-    }
     get description() {
         return this._def.description;
     }
@@ -30359,6 +30984,48 @@ class ZodType {
         };
         const result = this._parseSync({ data, path: ctx.path, parent: ctx });
         return handleResult(ctx, result);
+    }
+    "~validate"(data) {
+        var _a, _b;
+        const ctx = {
+            common: {
+                issues: [],
+                async: !!this["~standard"].async,
+            },
+            path: [],
+            schemaErrorMap: this._def.errorMap,
+            parent: null,
+            data,
+            parsedType: (0, util_1.getParsedType)(data),
+        };
+        if (!this["~standard"].async) {
+            try {
+                const result = this._parseSync({ data, path: [], parent: ctx });
+                return (0, parseUtil_1.isValid)(result)
+                    ? {
+                        value: result.value,
+                    }
+                    : {
+                        issues: ctx.common.issues,
+                    };
+            }
+            catch (err) {
+                if ((_b = (_a = err === null || err === void 0 ? void 0 : err.message) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === null || _b === void 0 ? void 0 : _b.includes("encountered")) {
+                    this["~standard"].async = true;
+                }
+                ctx.common = {
+                    issues: [],
+                    async: true,
+                };
+            }
+        }
+        return this._parseAsync({ data, path: [], parent: ctx }).then((result) => (0, parseUtil_1.isValid)(result)
+            ? {
+                value: result.value,
+            }
+            : {
+                issues: ctx.common.issues,
+            });
     }
     async parseAsync(data, params) {
         const result = await this.safeParseAsync(data, params);
@@ -30446,6 +31113,40 @@ class ZodType {
     superRefine(refinement) {
         return this._refinement(refinement);
     }
+    constructor(def) {
+        /** Alias of safeParseAsync */
+        this.spa = this.safeParseAsync;
+        this._def = def;
+        this.parse = this.parse.bind(this);
+        this.safeParse = this.safeParse.bind(this);
+        this.parseAsync = this.parseAsync.bind(this);
+        this.safeParseAsync = this.safeParseAsync.bind(this);
+        this.spa = this.spa.bind(this);
+        this.refine = this.refine.bind(this);
+        this.refinement = this.refinement.bind(this);
+        this.superRefine = this.superRefine.bind(this);
+        this.optional = this.optional.bind(this);
+        this.nullable = this.nullable.bind(this);
+        this.nullish = this.nullish.bind(this);
+        this.array = this.array.bind(this);
+        this.promise = this.promise.bind(this);
+        this.or = this.or.bind(this);
+        this.and = this.and.bind(this);
+        this.transform = this.transform.bind(this);
+        this.brand = this.brand.bind(this);
+        this.default = this.default.bind(this);
+        this.catch = this.catch.bind(this);
+        this.describe = this.describe.bind(this);
+        this.pipe = this.pipe.bind(this);
+        this.readonly = this.readonly.bind(this);
+        this.isNullable = this.isNullable.bind(this);
+        this.isOptional = this.isOptional.bind(this);
+        this["~standard"] = {
+            version: 1,
+            vendor: "zod",
+            validate: (data) => this["~validate"](data),
+        };
+    }
     optional() {
         return ZodOptional.create(this, this._def);
     }
@@ -30456,7 +31157,7 @@ class ZodType {
         return this.nullable().optional();
     }
     array() {
-        return ZodArray.create(this, this._def);
+        return ZodArray.create(this);
     }
     promise() {
         return ZodPromise.create(this, this._def);
@@ -30525,11 +31226,12 @@ exports.Schema = ZodType;
 exports.ZodSchema = ZodType;
 const cuidRegex = /^c[^\s-]{8,}$/i;
 const cuid2Regex = /^[0-9a-z]+$/;
-const ulidRegex = /^[0-9A-HJKMNP-TV-Z]{26}$/;
+const ulidRegex = /^[0-9A-HJKMNP-TV-Z]{26}$/i;
 // const uuidRegex =
 //   /^([a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12}|00000000-0000-0000-0000-000000000000)$/i;
 const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/i;
 const nanoidRegex = /^[a-z0-9_-]{21}$/i;
+const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/;
 const durationRegex = /^[-+]?P(?!$)(?:(?:[-+]?\d+Y)|(?:[-+]?\d+[.,]\d+Y$))?(?:(?:[-+]?\d+M)|(?:[-+]?\d+[.,]\d+M$))?(?:(?:[-+]?\d+W)|(?:[-+]?\d+[.,]\d+W$))?(?:(?:[-+]?\d+D)|(?:[-+]?\d+[.,]\d+D$))?(?:T(?=[\d+-])(?:(?:[-+]?\d+H)|(?:[-+]?\d+[.,]\d+H$))?(?:(?:[-+]?\d+M)|(?:[-+]?\d+[.,]\d+M$))?(?:[-+]?\d+(?:[.,]\d+)?S)?)??$/;
 // from https://stackoverflow.com/a/46181/1550155
 // old version: too slow, didn't support unicode
@@ -30551,9 +31253,15 @@ const _emojiRegex = `^(\\p{Extended_Pictographic}|\\p{Emoji_Component})+$`;
 let emojiRegex;
 // faster, simpler, safer
 const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/;
-const ipv6Regex = /^(([a-f0-9]{1,4}:){7}|::([a-f0-9]{1,4}:){0,6}|([a-f0-9]{1,4}:){1}:([a-f0-9]{1,4}:){0,5}|([a-f0-9]{1,4}:){2}:([a-f0-9]{1,4}:){0,4}|([a-f0-9]{1,4}:){3}:([a-f0-9]{1,4}:){0,3}|([a-f0-9]{1,4}:){4}:([a-f0-9]{1,4}:){0,2}|([a-f0-9]{1,4}:){5}:([a-f0-9]{1,4}:){0,1})([a-f0-9]{1,4}|(((25[0-5])|(2[0-4][0-9])|(1[0-9]{2})|([0-9]{1,2}))\.){3}((25[0-5])|(2[0-4][0-9])|(1[0-9]{2})|([0-9]{1,2})))$/;
+const ipv4CidrRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\/(3[0-2]|[12]?[0-9])$/;
+// const ipv6Regex =
+// /^(([a-f0-9]{1,4}:){7}|::([a-f0-9]{1,4}:){0,6}|([a-f0-9]{1,4}:){1}:([a-f0-9]{1,4}:){0,5}|([a-f0-9]{1,4}:){2}:([a-f0-9]{1,4}:){0,4}|([a-f0-9]{1,4}:){3}:([a-f0-9]{1,4}:){0,3}|([a-f0-9]{1,4}:){4}:([a-f0-9]{1,4}:){0,2}|([a-f0-9]{1,4}:){5}:([a-f0-9]{1,4}:){0,1})([a-f0-9]{1,4}|(((25[0-5])|(2[0-4][0-9])|(1[0-9]{2})|([0-9]{1,2}))\.){3}((25[0-5])|(2[0-4][0-9])|(1[0-9]{2})|([0-9]{1,2})))$/;
+const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
+const ipv6CidrRegex = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$/;
 // https://stackoverflow.com/questions/7860392/determine-if-string-is-in-base64-using-javascript
 const base64Regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+// https://base64.guru/standards/base64url
+const base64urlRegex = /^([0-9a-zA-Z-_]{4})*(([0-9a-zA-Z-_]{2}(==)?)|([0-9a-zA-Z-_]{3}(=)?))?$/;
 // simple
 // const dateRegexSource = `\\d{4}-\\d{2}-\\d{2}`;
 // no leap year validation
@@ -30591,6 +31299,38 @@ function isValidIP(ip, version) {
         return true;
     }
     if ((version === "v6" || !version) && ipv6Regex.test(ip)) {
+        return true;
+    }
+    return false;
+}
+function isValidJWT(jwt, alg) {
+    if (!jwtRegex.test(jwt))
+        return false;
+    try {
+        const [header] = jwt.split(".");
+        // Convert base64url to base64
+        const base64 = header
+            .replace(/-/g, "+")
+            .replace(/_/g, "/")
+            .padEnd(header.length + ((4 - (header.length % 4)) % 4), "=");
+        const decoded = JSON.parse(atob(base64));
+        if (typeof decoded !== "object" || decoded === null)
+            return false;
+        if (!decoded.typ || !decoded.alg)
+            return false;
+        if (alg && decoded.alg !== alg)
+            return false;
+        return true;
+    }
+    catch (_a) {
+        return false;
+    }
+}
+function isValidCidr(ip, version) {
+    if ((version === "v4" || !version) && ipv4CidrRegex.test(ip)) {
+        return true;
+    }
+    if ((version === "v6" || !version) && ipv6CidrRegex.test(ip)) {
         return true;
     }
     return false;
@@ -30876,11 +31616,44 @@ class ZodString extends ZodType {
                     status.dirty();
                 }
             }
+            else if (check.kind === "jwt") {
+                if (!isValidJWT(input.data, check.alg)) {
+                    ctx = this._getOrReturnCtx(input, ctx);
+                    (0, parseUtil_1.addIssueToContext)(ctx, {
+                        validation: "jwt",
+                        code: ZodError_1.ZodIssueCode.invalid_string,
+                        message: check.message,
+                    });
+                    status.dirty();
+                }
+            }
+            else if (check.kind === "cidr") {
+                if (!isValidCidr(input.data, check.version)) {
+                    ctx = this._getOrReturnCtx(input, ctx);
+                    (0, parseUtil_1.addIssueToContext)(ctx, {
+                        validation: "cidr",
+                        code: ZodError_1.ZodIssueCode.invalid_string,
+                        message: check.message,
+                    });
+                    status.dirty();
+                }
+            }
             else if (check.kind === "base64") {
                 if (!base64Regex.test(input.data)) {
                     ctx = this._getOrReturnCtx(input, ctx);
                     (0, parseUtil_1.addIssueToContext)(ctx, {
                         validation: "base64",
+                        code: ZodError_1.ZodIssueCode.invalid_string,
+                        message: check.message,
+                    });
+                    status.dirty();
+                }
+            }
+            else if (check.kind === "base64url") {
+                if (!base64urlRegex.test(input.data)) {
+                    ctx = this._getOrReturnCtx(input, ctx);
+                    (0, parseUtil_1.addIssueToContext)(ctx, {
+                        validation: "base64url",
                         code: ZodError_1.ZodIssueCode.invalid_string,
                         message: check.message,
                     });
@@ -30933,8 +31706,21 @@ class ZodString extends ZodType {
     base64(message) {
         return this._addCheck({ kind: "base64", ...errorUtil_1.errorUtil.errToObj(message) });
     }
+    base64url(message) {
+        // base64url encoding is a modification of base64 that can safely be used in URLs and filenames
+        return this._addCheck({
+            kind: "base64url",
+            ...errorUtil_1.errorUtil.errToObj(message),
+        });
+    }
+    jwt(options) {
+        return this._addCheck({ kind: "jwt", ...errorUtil_1.errorUtil.errToObj(options) });
+    }
     ip(options) {
         return this._addCheck({ kind: "ip", ...errorUtil_1.errorUtil.errToObj(options) });
+    }
+    cidr(options) {
+        return this._addCheck({ kind: "cidr", ...errorUtil_1.errorUtil.errToObj(options) });
     }
     datetime(options) {
         var _a, _b;
@@ -31026,8 +31812,7 @@ class ZodString extends ZodType {
         });
     }
     /**
-     * @deprecated Use z.string().min(1) instead.
-     * @see {@link ZodString.min}
+     * Equivalent to `.min(1)`
      */
     nonempty(message) {
         return this.min(1, errorUtil_1.errorUtil.errToObj(message));
@@ -31089,8 +31874,15 @@ class ZodString extends ZodType {
     get isIP() {
         return !!this._def.checks.find((ch) => ch.kind === "ip");
     }
+    get isCIDR() {
+        return !!this._def.checks.find((ch) => ch.kind === "cidr");
+    }
     get isBase64() {
         return !!this._def.checks.find((ch) => ch.kind === "base64");
+    }
+    get isBase64url() {
+        // base64url encoding is a modification of base64 that can safely be used in URLs and filenames
+        return !!this._def.checks.find((ch) => ch.kind === "base64url");
     }
     get minLength() {
         let min = null;
@@ -31386,17 +32178,16 @@ class ZodBigInt extends ZodType {
     }
     _parse(input) {
         if (this._def.coerce) {
-            input.data = BigInt(input.data);
+            try {
+                input.data = BigInt(input.data);
+            }
+            catch (_a) {
+                return this._getInvalidInput(input);
+            }
         }
         const parsedType = this._getType(input);
         if (parsedType !== util_1.ZodParsedType.bigint) {
-            const ctx = this._getOrReturnCtx(input);
-            (0, parseUtil_1.addIssueToContext)(ctx, {
-                code: ZodError_1.ZodIssueCode.invalid_type,
-                expected: util_1.ZodParsedType.bigint,
-                received: ctx.parsedType,
-            });
-            return parseUtil_1.INVALID;
+            return this._getInvalidInput(input);
         }
         let ctx = undefined;
         const status = new parseUtil_1.ParseStatus();
@@ -31449,6 +32240,15 @@ class ZodBigInt extends ZodType {
             }
         }
         return { status: status.value, value: input.data };
+    }
+    _getInvalidInput(input) {
+        const ctx = this._getOrReturnCtx(input);
+        (0, parseUtil_1.addIssueToContext)(ctx, {
+            code: ZodError_1.ZodIssueCode.invalid_type,
+            expected: util_1.ZodParsedType.bigint,
+            received: ctx.parsedType,
+        });
+        return parseUtil_1.INVALID;
     }
     gte(value, message) {
         return this.setLimit("min", value, true, errorUtil_1.errorUtil.toString(message));
@@ -33762,7 +34562,7 @@ var ZodFirstPartyTypeKind;
     ZodFirstPartyTypeKind["ZodBranded"] = "ZodBranded";
     ZodFirstPartyTypeKind["ZodPipeline"] = "ZodPipeline";
     ZodFirstPartyTypeKind["ZodReadonly"] = "ZodReadonly";
-})(ZodFirstPartyTypeKind = exports.ZodFirstPartyTypeKind || (exports.ZodFirstPartyTypeKind = {}));
+})(ZodFirstPartyTypeKind || (exports.ZodFirstPartyTypeKind = ZodFirstPartyTypeKind = {}));
 // requires TS 4.4+
 class Class {
     constructor(..._) { }
@@ -33863,451 +34663,6 @@ exports.NEVER = parseUtil_1.INVALID;
 
 /***/ }),
 
-/***/ 7492:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Analytics = void 0;
-const main_1 = __nccwpck_require__(465);
-class Analytics extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    async get() {
-        const { data } = await this.api().get("/analytics");
-        return data;
-    }
-}
-exports.Analytics = Analytics;
-
-
-/***/ }),
-
-/***/ 9000:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Application = void 0;
-const form_data_1 = __importDefault(__nccwpck_require__(6454));
-const main_1 = __nccwpck_require__(465);
-const fs_1 = __nccwpck_require__(9896);
-class Application extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    async get(page = 1, recordPerPage = 10, order = "desc") {
-        const { data } = await this.api().get(`/application`, {
-            params: {
-                page,
-                recordPerPage,
-                order,
-            },
-        });
-        return data;
-    }
-    async getById(id) {
-        const { data } = await this.api().get(`/application/${id}`);
-        return data;
-    }
-    async create(body) {
-        const form = new form_data_1.default();
-        form.append("title", body.title);
-        form.append("description", body.description);
-        form.append("file", (0, fs_1.createReadStream)(body.file_path));
-        form.append("icon", (0, fs_1.createReadStream)(body.icon));
-        form.append("banner", (0, fs_1.createReadStream)(body.banner));
-        form.append("author", body.author);
-        form.append("version", body.version);
-        form.append("short_description", body.short_description);
-        // Append each input item
-        body.input.forEach((input) => {
-            const info = JSON.stringify(input);
-            form.append("input", info);
-        });
-        body.screenshots.forEach((inp) => {
-            form.append("screenshots", (0, fs_1.createReadStream)(inp));
-        });
-        const { data } = await this.api().post(`/application`, form, {
-            headers: {
-                ...form.getHeaders(),
-            },
-        });
-        return data;
-    }
-    async update(id, body) {
-        const form = new form_data_1.default();
-        form.append("title", body.title);
-        form.append("description", body.description);
-        form.append("short_description", body.short_description);
-        if (body.file_path) {
-            form.append("file", (0, fs_1.createReadStream)(body.file_path));
-        }
-        if (body.icon) {
-            form.append("icon", (0, fs_1.createReadStream)(body.icon));
-        }
-        if (body.banner) {
-            form.append("banner", (0, fs_1.createReadStream)(body.banner));
-        }
-        form.append("author", body.author);
-        form.append("version", body.version);
-        // Append each input item
-        body?.input?.forEach((input) => {
-            const info = JSON.stringify(input);
-            form.append("input", info);
-        });
-        body?.screenshots?.forEach((inp) => {
-            form.append("screenshots", (0, fs_1.createReadStream)(inp));
-        });
-        const { data } = await this.api().put(`/application/${id}`, form, {
-            headers: {
-                ...form.getHeaders()
-            }
-        });
-        return data;
-    }
-    async delete(id) {
-        const { data } = await this.api().delete(`/application/${id}`);
-        return data;
-    }
-}
-exports.Application = Application;
-
-
-/***/ }),
-
-/***/ 3536:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(9000), exports);
-__exportStar(__nccwpck_require__(1588), exports);
-__exportStar(__nccwpck_require__(9308), exports);
-
-
-/***/ }),
-
-/***/ 1588:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Sequence = void 0;
-const main_1 = __nccwpck_require__(465);
-class Sequence extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    async get(page = 1, recordPerPage = 10, order = 'desc') {
-        const { data } = await this.api().get(`/sequence`, {
-            params: {
-                page,
-                recordPerPage,
-                order
-            }
-        });
-        return data;
-    }
-    async getById(id) {
-        const { data } = await this.api().get(`/sequence/${id}`);
-        return data;
-    }
-    async create(body) {
-        const { data } = await this.api().post(`/sequence`, body);
-        return data;
-    }
-    async update(id, body) {
-        const { data } = await this.api().put(`/sequence/${id}`, body);
-        return data;
-    }
-    async delete(id) {
-        const { data } = await this.api().delete(`/sequence/${id}`);
-        return data;
-    }
-}
-exports.Sequence = Sequence;
-
-
-/***/ }),
-
-/***/ 9308:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.SequenceOutput = void 0;
-const main_1 = __nccwpck_require__(465);
-class SequenceOutput extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    async getById(id) {
-        const { data } = await this.api().get(`/sequence-output/${id}`);
-        return data;
-    }
-    async create(body) {
-        const { data } = await this.api().post(`/sequence-output`, body);
-        return data;
-    }
-}
-exports.SequenceOutput = SequenceOutput;
-
-
-/***/ }),
-
-/***/ 293:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.auth_key = exports.getEnv = void 0;
-const getEnv = (key, def, shouldCrash = true) => {
-    const { env } = process;
-    const value = env[key] || def;
-    if (typeof value !== 'string' && shouldCrash === true) {
-        throw new Error(`env ${key} did not found in env`);
-    }
-    return value;
-};
-exports.getEnv = getEnv;
-exports.auth_key = (0, exports.getEnv)('CRAWLORA_AUTH_KEY', undefined, false); // provided by default
-
-
-/***/ }),
-
-/***/ 4647:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(465), exports);
-__exportStar(__nccwpck_require__(7492), exports);
-__exportStar(__nccwpck_require__(3536), exports);
-__exportStar(__nccwpck_require__(4363), exports);
-__exportStar(__nccwpck_require__(1445), exports);
-
-
-/***/ }),
-
-/***/ 465:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Crawlora = void 0;
-const axios_1 = __importDefault(__nccwpck_require__(7269));
-const config_1 = __nccwpck_require__(293);
-class Crawlora {
-    apikey;
-    baseUrl = new URL("https://api.crawlora.com/api/v1");
-    constructor(apiKey, baseUrl) {
-        if (apiKey) {
-            this.setApikey(apiKey);
-        }
-        if (baseUrl) {
-            this.setBaseUrl(baseUrl);
-        }
-    }
-    setBaseUrl(url) {
-        this.baseUrl = url;
-    }
-    setApikey(key) {
-        this.apikey = key || config_1.auth_key;
-    }
-    api() {
-        return axios_1.default.create({
-            baseURL: this.baseUrl.toString(),
-            headers: {
-                "x-api-key": this.apikey,
-            },
-        });
-    }
-}
-exports.Crawlora = Crawlora;
-
-
-/***/ }),
-
-/***/ 4363:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Plugin = void 0;
-const main_1 = __nccwpck_require__(465);
-const form_data_1 = __importDefault(__nccwpck_require__(6454));
-const fs_1 = __nccwpck_require__(9896);
-class Plugin extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    async get(dto) {
-        const { data } = await this.api().get(`/plugins`, {
-            params: dto
-        });
-        return data;
-    }
-    async getById(id) {
-        const { data } = await this.api().get(`/plugins/${id}`);
-        return data;
-    }
-    async create(pluginData, testFilePath, codeFilePath) {
-        const formData = new form_data_1.default();
-        Object.keys(pluginData).forEach((key) => {
-            //@ts-ignore
-            let value = pluginData[key];
-            if (typeof value !== 'string') {
-                value = JSON.stringify(value);
-            }
-            formData.append(key, value);
-        });
-        if (testFilePath && typeof testFilePath === 'string') {
-            formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
-        }
-        if (codeFilePath && typeof codeFilePath === 'string') {
-            formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
-        }
-        if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
-            formData.append('test_data', testFilePath);
-        }
-        if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
-            formData.append('file', codeFilePath);
-        }
-        const { data } = await this.api().post(`/plugins`, formData, {
-            headers: {
-                ...formData.getHeaders()
-            },
-        });
-        return data;
-    }
-    async update(id, pluginData, testFilePath, codeFilePath) {
-        const formData = new form_data_1.default();
-        Object.keys(pluginData).forEach((key) => {
-            //@ts-ignore
-            let value = pluginData[key];
-            // Convert non-string values (like boolean) to strings
-            if (typeof value !== 'string') {
-                value = JSON.stringify(value); // Convert to string representation
-            }
-            formData.append(key, value);
-        });
-        if (testFilePath && typeof testFilePath === 'string') {
-            formData.append('test_data', (0, fs_1.createReadStream)(testFilePath));
-        }
-        if (codeFilePath && typeof codeFilePath === 'string') {
-            formData.append('file', (0, fs_1.createReadStream)(codeFilePath));
-        }
-        if (testFilePath && testFilePath instanceof fs_1.ReadStream) {
-            formData.append('test_data', testFilePath);
-        }
-        if (codeFilePath && codeFilePath instanceof fs_1.ReadStream) {
-            formData.append('file', codeFilePath);
-        }
-        const { data } = await this.api().put(`/plugins/${id}`, formData, {
-            headers: {
-                ...formData.getHeaders()
-            },
-        });
-        return data;
-    }
-    async delete(id) {
-        const { data } = await this.api().delete(`/plugins/${id}`);
-        return data;
-    }
-}
-exports.Plugin = Plugin;
-
-
-/***/ }),
-
-/***/ 1445:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Request = void 0;
-const main_1 = __nccwpck_require__(465);
-class Request extends main_1.Crawlora {
-    constructor(apiKey, baseUrl) {
-        super(apiKey, baseUrl);
-    }
-    async get(page = 1, recordPerPage = 10, order = "desc") {
-        const { data } = await this.api().get(`/requests`, {
-            params: {
-                page,
-                recordPerPage,
-                order,
-            },
-        });
-        return data;
-    }
-    async getById(id) {
-        const { data } = await this.api().get(`/requests/${id}`);
-        return data;
-    }
-    async create(body) {
-        const { data } = await this.api().post(`/requests`, body);
-        return data;
-    }
-    async delete(id) {
-        const { data } = await this.api().delete(`/requests/${id}`);
-        return data;
-    }
-}
-exports.Request = Request;
-
-
-/***/ }),
-
 /***/ 8422:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -34329,13 +34684,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.working_dir = exports.auth_key = exports.getInput = exports.INPUTS = void 0;
 const core = __importStar(__nccwpck_require__(7484));
@@ -34377,13 +34742,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = run;
 const core = __importStar(__nccwpck_require__(7484));
@@ -34392,7 +34767,7 @@ const changeDir_1 = __nccwpck_require__(6134);
 const getCrawloraFile_1 = __nccwpck_require__(6138);
 const compress_1 = __nccwpck_require__(1053);
 const fs_1 = __nccwpck_require__(9896);
-const app_1 = __nccwpck_require__(4647);
+const sdk_1 = __nccwpck_require__(6551);
 const axios_1 = __nccwpck_require__(7269);
 /**
  * The main function for the action.
@@ -34410,7 +34785,7 @@ async function run() {
         const fileInfo = (0, getCrawloraFile_1.getCrawloraFile)(cwd);
         const zipFile = await (0, compress_1.compress)(cwd);
         core.debug(JSON.stringify(fileInfo));
-        const app = new app_1.Application(apikey);
+        const app = new sdk_1.Application(apikey);
         // if app_id exists then we should update it else create it
         if (fileInfo.app_id) {
             // update it
@@ -34508,13 +34883,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.compress = void 0;
 const core = __importStar(__nccwpck_require__(7484));
@@ -43959,7 +44344,7 @@ exports.Node = Node;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
-// Axios v1.7.7 Copyright (c) 2024 Matt Zabriskie and contributors
+// Axios v1.7.9 Copyright (c) 2024 Matt Zabriskie and contributors
 
 
 const FormData$1 = __nccwpck_require__(6454);
@@ -43977,6 +44362,7 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 const FormData__default = /*#__PURE__*/_interopDefaultLegacy(FormData$1);
 const url__default = /*#__PURE__*/_interopDefaultLegacy(url);
+const proxyFromEnv__default = /*#__PURE__*/_interopDefaultLegacy(proxyFromEnv);
 const http__default = /*#__PURE__*/_interopDefaultLegacy(http);
 const https__default = /*#__PURE__*/_interopDefaultLegacy(https);
 const util__default = /*#__PURE__*/_interopDefaultLegacy(util);
@@ -45132,7 +45518,7 @@ function encode(val) {
  *
  * @param {string} url The base of the url (e.g., http://www.google.com)
  * @param {object} [params] The params to be appended
- * @param {?object} options
+ * @param {?(object|Function)} options
  *
  * @returns {string} The formatted url
  */
@@ -45143,6 +45529,12 @@ function buildURL(url, params, options) {
   }
   
   const _encode = options && options.encode || encode;
+
+  if (utils$1.isFunction(options)) {
+    options = {
+      serialize: options
+    };
+  } 
 
   const serializeFn = options && options.serialize;
 
@@ -46032,7 +46424,7 @@ function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 }
 
-const VERSION = "1.7.7";
+const VERSION = "1.7.9";
 
 function parseProtocol(url) {
   const match = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url);
@@ -46244,7 +46636,7 @@ const readBlob$1 = readBlob;
 
 const BOUNDARY_ALPHABET = utils$1.ALPHABET.ALPHA_DIGIT + '-_';
 
-const textEncoder = new util.TextEncoder();
+const textEncoder = typeof TextEncoder === 'function' ? new TextEncoder() : new util__default["default"].TextEncoder();
 
 const CRLF = '\r\n';
 const CRLF_BYTES = textEncoder.encode(CRLF);
@@ -46582,7 +46974,7 @@ function dispatchBeforeRedirect(options, responseDetails) {
 function setProxy(options, configProxy, location) {
   let proxy = configProxy;
   if (!proxy && proxy !== false) {
-    const proxyUrl = proxyFromEnv.getProxyForUrl(location);
+    const proxyUrl = proxyFromEnv__default["default"].getProxyForUrl(location);
     if (proxyUrl) {
       proxy = new URL(proxyUrl);
     }
@@ -46813,7 +47205,7 @@ const httpAdapter = isHttpAdapterSupported && function httpAdapter(config) {
         } catch (e) {
         }
       }
-    } else if (utils$1.isBlob(data)) {
+    } else if (utils$1.isBlob(data) || utils$1.isFile(data)) {
       data.size && headers.setContentType(data.type || 'application/octet-stream');
       headers.setContentLength(data.size || 0);
       data = stream__default["default"].Readable.from(readBlob$1(data));
@@ -47066,7 +47458,7 @@ const httpAdapter = isHttpAdapterSupported && function httpAdapter(config) {
           }
 
           const err = new AxiosError(
-            'maxContentLength size of ' + config.maxContentLength + ' exceeded',
+            'stream has been aborted',
             AxiosError.ERR_BAD_RESPONSE,
             config,
             lastRequest
@@ -47189,68 +47581,18 @@ const httpAdapter = isHttpAdapterSupported && function httpAdapter(config) {
   });
 };
 
-const isURLSameOrigin = platform.hasStandardBrowserEnv ?
+const isURLSameOrigin = platform.hasStandardBrowserEnv ? ((origin, isMSIE) => (url) => {
+  url = new URL(url, platform.origin);
 
-// Standard browser envs have full support of the APIs needed to test
-// whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    const msie = platform.navigator && /(msie|trident)/i.test(platform.navigator.userAgent);
-    const urlParsingNode = document.createElement('a');
-    let originURL;
-
-    /**
-    * Parse a URL to discover its components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      let href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-          urlParsingNode.pathname :
-          '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      const parsed = (utils$1.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-          parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })();
+  return (
+    origin.protocol === url.protocol &&
+    origin.host === url.host &&
+    (isMSIE || origin.port === url.port)
+  );
+})(
+  new URL(platform.origin),
+  platform.navigator && /(msie|trident)/i.test(platform.navigator.userAgent)
+) : () => true;
 
 const cookies = platform.hasStandardBrowserEnv ?
 
@@ -47307,7 +47649,7 @@ function mergeConfig(config1, config2) {
   config2 = config2 || {};
   const config = {};
 
-  function getMergedValue(target, source, caseless) {
+  function getMergedValue(target, source, prop, caseless) {
     if (utils$1.isPlainObject(target) && utils$1.isPlainObject(source)) {
       return utils$1.merge.call({caseless}, target, source);
     } else if (utils$1.isPlainObject(source)) {
@@ -47319,11 +47661,11 @@ function mergeConfig(config1, config2) {
   }
 
   // eslint-disable-next-line consistent-return
-  function mergeDeepProperties(a, b, caseless) {
+  function mergeDeepProperties(a, b, prop , caseless) {
     if (!utils$1.isUndefined(b)) {
-      return getMergedValue(a, b, caseless);
+      return getMergedValue(a, b, prop , caseless);
     } else if (!utils$1.isUndefined(a)) {
-      return getMergedValue(undefined, a, caseless);
+      return getMergedValue(undefined, a, prop , caseless);
     }
   }
 
@@ -47381,7 +47723,7 @@ function mergeConfig(config1, config2) {
     socketPath: defaultToConfig2,
     responseEncoding: defaultToConfig2,
     validateStatus: mergeDirectKeys,
-    headers: (a, b) => mergeDeepProperties(headersToObject(a), headersToObject(b), true)
+    headers: (a, b , prop) => mergeDeepProperties(headersToObject(a), headersToObject(b),prop, true)
   };
 
   utils$1.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
@@ -48174,6 +48516,14 @@ validators$1.transitional = function transitional(validator, version, message) {
   };
 };
 
+validators$1.spelling = function spelling(correctSpelling) {
+  return (value, opt) => {
+    // eslint-disable-next-line no-console
+    console.warn(`${opt} is likely a misspelling of ${correctSpelling}`);
+    return true;
+  }
+};
+
 /**
  * Assert object's properties type
  *
@@ -48243,9 +48593,9 @@ class Axios {
       return await this._request(configOrUrl, config);
     } catch (err) {
       if (err instanceof Error) {
-        let dummy;
+        let dummy = {};
 
-        Error.captureStackTrace ? Error.captureStackTrace(dummy = {}) : (dummy = new Error());
+        Error.captureStackTrace ? Error.captureStackTrace(dummy) : (dummy = new Error());
 
         // slice off the Error: ... line
         const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, '') : '';
@@ -48299,6 +48649,11 @@ class Axios {
         }, true);
       }
     }
+
+    validator.assertOptions(config, {
+      baseUrl: validators.spelling('baseURL'),
+      withXsrfToken: validators.spelling('withXSRFToken')
+    }, true);
 
     // Set config.method
     config.method = (config.method || this.defaults.method || 'get').toLowerCase();
