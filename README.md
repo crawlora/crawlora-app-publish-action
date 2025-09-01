@@ -233,3 +233,6 @@ following steps:
    commits, tags and branches to the remote repository. From here, you will need
    to create a new release in GitHub so users can easily reference the new tags
    in their workflows.
+
+
+<!-- Security scan triggered at 2025-09-01 23:07:44 -->
